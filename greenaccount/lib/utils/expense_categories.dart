@@ -3,23 +3,23 @@ import 'package:greenaccount/utils/colors.dart';
 
 final List<String> expenseCategoriesTexts = ["Konut", "Fatura", "Kredi Kartı", "Birikim", "Diğer"];
 final List<Icon> expenseCategoriesIcons = [
-  Icon(
+  const Icon(
     Icons.apartment,
     color: primaryOrange,
   ),
-  Icon(
+  const Icon(
     Icons.receipt_long,
     color: primaryRed,
   ),
-  Icon(
+  const Icon(
     Icons.credit_card,
     color: primaryBlue,
   ),
-  Icon(
+  const Icon(
     Icons.savings_outlined,
     color: primaryPink,
   ),
-  Icon(
+  const Icon(
     Icons.currency_lira,
     color: primaryBrown,
   )

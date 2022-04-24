@@ -5,7 +5,7 @@ import '../../../utils/colors.dart';
 class TitleWidget extends StatelessWidget {
   final String title;
   final double amount;
-  TitleWidget({Key? key, required this.title, required this.amount}) : super(key: key);
+  const TitleWidget({Key? key, required this.title, required this.amount}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class TitleWidget extends StatelessWidget {
                 fontSize: 30,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Text(
               amount.toString(),
               textAlign: TextAlign.start,
