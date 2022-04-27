@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:core';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -21,6 +22,16 @@ class IncomeExpenseModel {
     required this.sonOdemeTarihi,
   });
 
-  factory IncomeExpenseModel.fromJson(Map<String, dynamic> json) => _$IncomeExpenseModelFromJson(json);
+  Map<String, double> toPieChartMap() {
+    // ignore: unnecessary_this
+    String data = '{ "${this.kategori}": ${this.miktar} }';
+    Map<String, dynamic> mappedData = jsonDecode(data);
+    Map<String, double> returnData = mappedData
+        .map((key, value) => MapEntry(key, double.parse(value.toString())));
+    return returnData;
+  }
+
+  factory IncomeExpenseModel.fromJson(Map<String, dynamic> json) =>
+      _$IncomeExpenseModelFromJson(json);
   Map<String, dynamic> toJson() => _$IncomeExpenseModelToJson(this);
 }

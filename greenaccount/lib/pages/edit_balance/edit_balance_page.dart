@@ -83,6 +83,8 @@ class _EditBalancePageState extends State<EditBalancePage> {
                 autocorrect: false,
                 cursorColor: primaryOrange,
                 controller: _tutarController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(
                     label: Text("Tutar"),
                     icon: Icon(
@@ -99,6 +101,8 @@ class _EditBalancePageState extends State<EditBalancePage> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Tutar boş bırakılamaz";
+                  } else if (value.contains(",")) {
+                    return "Ondalık basamak için nokta kullanınız";
                   }
                   return null;
                 },
@@ -109,6 +113,7 @@ class _EditBalancePageState extends State<EditBalancePage> {
               child: TextFormField(
                 autocorrect: false,
                 cursorColor: primaryOrange,
+                keyboardType: TextInputType.datetime,
                 controller: _sonOdemeController,
                 decoration: const InputDecoration(
                     label: Text("Son Ödeme Tarihi"),
@@ -149,9 +154,14 @@ class _EditBalancePageState extends State<EditBalancePage> {
                       child: Container(
                         width: 150,
                         decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(10)),
-                          border: Border.all(width: 1, color: expenseCategoriesColors[index]),
-                          color: _selectedCategory == expenseCategoriesTexts[index] ? Colors.orange[100] : null,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          border: Border.all(
+                              width: 1, color: expenseCategoriesColors[index]),
+                          color:
+                              _selectedCategory == expenseCategoriesTexts[index]
+                                  ? Colors.orange[100]
+                                  : null,
                         ),
                         child: Row(
                           children: [
@@ -190,7 +200,8 @@ class _EditBalancePageState extends State<EditBalancePage> {
                               children: [
                                 Text('Kalem Adı: ${_kalemController.text}'),
                                 Text('Tutar : ${_tutarController.text}'),
-                                Text('Son Ödeme Tarihi: ${_sonOdemeController.text}'),
+                                Text(
+                                    'Son Ödeme Tarihi: ${_sonOdemeController.text}'),
                                 Text('Kategori: $_selectedCategory'),
                               ],
                             ),
@@ -217,15 +228,25 @@ class _EditBalancePageState extends State<EditBalancePage> {
                                       style: TextStyle(color: Colors.green),
                                     ),
                                     onPressed: () async {
-                                      expensesList!
-                                          .add(IncomeExpenseModel(kalemAdi: _kalemController.text, isGelir: false, miktar: double.parse(_tutarController.text), kategori: _selectedCategory, isOdendi: false, sonOdemeTarihi: _sonOdemeController.text));
+                                      expensesList!.add(IncomeExpenseModel(
+                                          kalemAdi: _kalemController.text,
+                                          isGelir: false,
+                                          miktar: double.parse(
+                                              _tutarController.text),
+                                          kategori: _selectedCategory,
+                                          isOdendi: false,
+                                          sonOdemeTarihi:
+                                              _sonOdemeController.text));
                                       _kalemController.clear();
                                       _tutarController.clear();
                                       _sonOdemeController.clear();
                                       await _writeToExpenseList();
 
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(content: Text('Gider Kalemi Eklendi')),
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content:
+                                                Text('Gider Kalemi Eklendi')),
                                       );
                                       Navigator.of(context).pop();
                                     },

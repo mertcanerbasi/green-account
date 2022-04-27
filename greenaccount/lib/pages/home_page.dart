@@ -43,7 +43,9 @@ class _HomePageState extends State<HomePage> {
             fontSize: 25,
           ),
         ),
-        actions: [Center(child: Text(DateTime.now().toString().substring(0, 10) + "  "))],
+        actions: [
+          Center(child: Text(DateTime.now().toString().substring(0, 10) + "  "))
+        ],
         backgroundColor: primaryOrange,
       ),
       body: PageView(
@@ -70,7 +72,8 @@ class _HomePageState extends State<HomePage> {
         unselectedItemColor: Colors.grey[500],
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Anasayfa'),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt), label: 'Hesap Ozeti'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.receipt), label: 'Hesap Ozeti'),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.add_circle_outline,
