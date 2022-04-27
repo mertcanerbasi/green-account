@@ -1,6 +1,8 @@
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pie_chart/pie_chart.dart';
+import '../../models/barchart_model.dart';
 import '../../models/income_expense_model.dart';
 import '../../services/sharedPref.dart';
 import '../../utils/colors.dart';
@@ -16,12 +18,14 @@ class SummaryPage extends StatefulWidget {
 class _SummaryPageState extends State<SummaryPage> {
   final DataService _dataService = DataService();
   List<IncomeExpenseModel>? expenseList = [];
+  List<IncomeExpenseModel>? _incomesList = [];
   Map<String, double> dataMap = {};
   bool _isLoading = true;
   final oCcy = NumberFormat("#,##0.00", "en_EN");
   double _debtAmount = 0;
   double _paidAmount = 0;
-  final double _incomeAmount = 20000;
+  double _incomeAmount = 0;
+  double _remainingAmount = 0;
   double _savingsAmount = 0;
   String _selectedChart = 'Category';
   Map<String, double> emptydataMap = {
@@ -32,16 +36,33 @@ class _SummaryPageState extends State<SummaryPage> {
   String dropdownvalue_year = DateTime.now().year.toString();
   // List of items in our dropdown menu
 
-  _readExpenseList() async {
+  void _readExpenseList() async {
     List<IncomeExpenseModel>? list = await _dataService.readExpenseList();
     setState(() {
       expenseList = list;
       expenseList?.forEach((element) {
         dataMap.addAll(element.toPieChartMap());
-        _debtAmount += element.miktar;
-        _paidAmount += element.isOdendi == true ? element.miktar : 0;
+        if (!element.isGelir) {
+          _debtAmount += element.miktar;
+          _paidAmount += element.isOdendi == true ? element.miktar : 0;
+        }
+
         if (element.kategori == "Birikim") {
           _savingsAmount += element.miktar;
+        }
+        _remainingAmount = _debtAmount - _paidAmount;
+      });
+    });
+  }
+
+  void _readIncomesList() async {
+    List<IncomeExpenseModel>? list = await _dataService.readIncomeList();
+    setState(() {
+      print(list);
+      _incomesList = list;
+      _incomesList?.forEach((element) {
+        if (element.isGelir) {
+          _incomeAmount += element.miktar;
         }
       });
       _isLoading = !_isLoading;
@@ -52,10 +73,59 @@ class _SummaryPageState extends State<SummaryPage> {
   void initState() {
     super.initState();
     _readExpenseList();
+    _readIncomesList();
   }
 
   @override
   Widget build(BuildContext context) {
+    final List<IncomeExpense> data = [
+      IncomeExpense(
+          "Gelir",
+          _incomeAmount - _debtAmount <= 0 ? _incomeAmount : _debtAmount,
+          "Gelir"),
+      IncomeExpense(
+          "Gelir",
+          _incomeAmount - _debtAmount <= 0 ? 0 : _incomeAmount - _debtAmount,
+          "Kalan Nakit"),
+      IncomeExpense("Gider", _paidAmount, "Ödenen"),
+      IncomeExpense("Gider", _remainingAmount, "Gider"),
+    ];
+    List<charts.Series<IncomeExpense, String>> series = [
+      charts.Series(
+          id: "IncomeExpenseChart",
+          data: data,
+          domainFn: (IncomeExpense series, _) => series.type,
+          measureFn: (IncomeExpense series, _) => series.expense,
+          colorFn: (IncomeExpense segment, _) {
+            switch (segment.name) {
+              case "Gelir":
+                {
+                  return charts.ColorUtil.fromDartColor(primaryGreen);
+                }
+
+              case "Kalan Nakit":
+                {
+                  return charts.ColorUtil.fromDartColor(secondaryGreen);
+                }
+
+              case "Gider":
+                {
+                  return charts.ColorUtil.fromDartColor(secondaryRed);
+                }
+
+              case "Ödenen":
+                {
+                  return charts.ColorUtil.fromDartColor(primaryYellow);
+                }
+
+              default:
+                {
+                  return charts.MaterialPalette.red.shadeDefault;
+                }
+            }
+          },
+          displayName: "Asd")
+    ];
     return _isLoading
         ? const Center(
             child: CircularProgressIndicator.adaptive(),
@@ -171,7 +241,7 @@ class _SummaryPageState extends State<SummaryPage> {
                     Icons.currency_lira_outlined,
                     color: Colors.red,
                   ),
-                  title: const Text("Toplam Borç"),
+                  title: const Text("Toplam Gider"),
                   trailing: Text(
                     "${oCcy.format(_debtAmount)} ₺",
                     style: const TextStyle(fontSize: 20),
@@ -184,7 +254,7 @@ class _SummaryPageState extends State<SummaryPage> {
                     Icons.currency_lira_outlined,
                     color: Colors.yellow[700],
                   ),
-                  title: const Text("Ödenen Borç"),
+                  title: const Text("Ödenen Gider"),
                   trailing: Text(
                     "${oCcy.format(_paidAmount)} ₺",
                     style: const TextStyle(fontSize: 20),
@@ -193,11 +263,24 @@ class _SummaryPageState extends State<SummaryPage> {
               ),
               Card(
                 child: ListTile(
-                  leading: const Icon(
+                  leading: Icon(
                     Icons.currency_lira_outlined,
-                    color: primaryOrange,
+                    color: secondaryRed,
                   ),
-                  title: const Text("Kalan"),
+                  title: const Text("Kalan Gider"),
+                  trailing: Text(
+                    "${oCcy.format(_remainingAmount)} ₺",
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  leading: Icon(
+                    Icons.currency_lira_outlined,
+                    color: secondaryGreen,
+                  ),
+                  title: const Text("Kalan Nakit"),
                   trailing: Text(
                     "${oCcy.format(_incomeAmount - _debtAmount)} ₺",
                     style: const TextStyle(fontSize: 20),
@@ -218,8 +301,7 @@ class _SummaryPageState extends State<SummaryPage> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
                 child: SizedBox(
                   height: 40,
                   width: double.infinity,
@@ -303,7 +385,19 @@ class _SummaryPageState extends State<SummaryPage> {
                       ),
                     )
                   : dataMap.isNotEmpty == true && _selectedChart == "Income"
-                      ? SizedBox()
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 10),
+                          child: Container(
+                            height: 300,
+                            child: charts.BarChart(
+                              series,
+                              barGroupingType:
+                                  charts.BarGroupingType.groupedStacked,
+                              animate: true,
+                            ),
+                          ),
+                        )
                       : Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: PieChart(

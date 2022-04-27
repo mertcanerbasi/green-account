@@ -33,8 +33,10 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
       _expensesList = list;
       if (_expensesList?.isNotEmpty == true) {
         for (var element in _expensesList!) {
-          _debtAmount += element.miktar;
-          _paidAmount += element.isOdendi == true ? element.miktar : 0;
+          if (!element.isGelir) {
+            _debtAmount += element.miktar;
+            _paidAmount += element.isOdendi == true ? element.miktar : 0;
+          }
         }
       }
 
@@ -419,20 +421,28 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                   )),
                             )),
                       )
-                    : const Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 200),
-                          child: SizedBox(
-                            height: 100,
-                            width: double.infinity,
-                            child: Center(
-                                child: Text(
-                              "Henüz bir gider girmediniz",
-                              style: TextStyle(fontSize: 20),
-                            )),
-                          ),
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 200),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.warning,
+                              size: 100,
+                              color: primaryYellow,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            const Center(
+                              child: Text(
+                                "Gider kaydı bulunmuyor",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
+                      )
               ],
             ),
           )

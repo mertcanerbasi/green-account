@@ -14,14 +14,60 @@ class DataService {
     return directory.path;
   }
 
-  Future<File> get _localFile async {
+  Future<File> get _localFileExpenses async {
     final path = await _localPath;
     return File('$path/expenseList.json');
   }
 
+  Future<File> get _localFileIncomes async {
+    final path = await _localPath;
+    return File('$path/incomesList.json');
+  }
+
+  Future<File> get _localFileNotifications async {
+    final path = await _localPath;
+    return File('$path/notificationsList.json');
+  }
+
   Future<List<IncomeExpenseModel>?> readExpenseList() async {
     try {
-      final file = await _localFile;
+      final file = await _localFileExpenses;
+
+      // Read the file
+      final contents = await file.readAsString();
+      List data = jsonDecode(contents);
+      List<IncomeExpenseModel> list = [];
+      for (var element in data) {
+        list.add(IncomeExpenseModel.fromJson(element));
+      }
+      return list;
+    } catch (e) {
+      // If encountering an error, return 0
+      return null;
+    }
+  }
+
+  Future<List<IncomeExpenseModel>?> readIncomeList() async {
+    try {
+      final file = await _localFileIncomes;
+
+      // Read the file
+      final contents = await file.readAsString();
+      List data = jsonDecode(contents);
+      List<IncomeExpenseModel> list = [];
+      for (var element in data) {
+        list.add(IncomeExpenseModel.fromJson(element));
+      }
+      return list;
+    } catch (e) {
+      // If encountering an error, return 0
+      return null;
+    }
+  }
+
+  Future<List<IncomeExpenseModel>?> readNotificationsList() async {
+    try {
+      final file = await _localFileNotifications;
 
       // Read the file
       final contents = await file.readAsString();
@@ -38,14 +84,43 @@ class DataService {
   }
 
   Future<File> writeExpenseList(List<IncomeExpenseModel>? expenseList) async {
-    final file = await _localFile;
+    final file = await _localFileExpenses;
 
     // Write the file
     return file.writeAsString(jsonEncode(expenseList));
   }
 
+  Future<File> writeIncomeList(List<IncomeExpenseModel>? incomeList) async {
+    final file = await _localFileIncomes;
+
+    // Write the file
+    return file.writeAsString(jsonEncode(incomeList));
+  }
+
+  Future<File> writeNotificationsList(
+      List<IncomeExpenseModel>? notificationsList) async {
+    final file = await _localFileNotifications;
+
+    // Write the file
+    return file.writeAsString(jsonEncode(notificationsList));
+  }
+
   Future<void> clearExpenseList() async {
-    final file = await _localFile;
+    final file = await _localFileExpenses;
+
+    // Write the file
+    file.writeAsString('');
+  }
+
+  Future<void> clearIncomesList() async {
+    final file = await _localFileIncomes;
+
+    // Write the file
+    file.writeAsString('');
+  }
+
+  Future<void> clearNotificationsList() async {
+    final file = await _localFileNotifications;
 
     // Write the file
     file.writeAsString('');
