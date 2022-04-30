@@ -2,10 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:greenaccount/models/app_preferences_model.dart';
 import 'package:path_provider/path_provider.dart';
-
 import '../models/income_expense_model.dart';
 
 class DataService {
@@ -28,11 +25,6 @@ class DataService {
   Future<File> get _localFileNotifications async {
     final path = await _localPath;
     return File('$path/notificationsList.json');
-  }
-
-  Future<File> get _localFileAppPreferences async {
-    final path = await _localPath;
-    return File('$path/appPreferences.json');
   }
 
   Future<List<IncomeExpenseModel>?> readExpenseList() async {
@@ -89,23 +81,6 @@ class DataService {
     }
   }
 
-  Future<AppPreferencesModel?> readAppPreferences() async {
-    try {
-      final file = await _localFileAppPreferences;
-
-      // Read the file
-      final contents = await file.readAsString();
-
-      AppPreferencesModel data =
-          AppPreferencesModel.fromJson(jsonDecode(contents));
-
-      return data;
-    } catch (e) {
-      // If encountering an error, return 0
-      return null;
-    }
-  }
-
   Future<File> writeExpenseList(List<IncomeExpenseModel>? expenseList) async {
     final file = await _localFileExpenses;
 
@@ -128,13 +103,6 @@ class DataService {
     return file.writeAsString(jsonEncode(notificationsList));
   }
 
-  Future<File> writeAppPreferences(AppPreferencesModel? appPreferences) async {
-    final file = await _localFileAppPreferences;
-
-    // Write the file
-    return file.writeAsString(jsonEncode(appPreferences));
-  }
-
   Future<void> clearExpenseList() async {
     final file = await _localFileExpenses;
 
@@ -152,12 +120,6 @@ class DataService {
   Future<void> clearNotificationsList() async {
     final file = await _localFileNotifications;
 
-    // Write the file
-    file.writeAsString('');
-  }
-
-  Future<void> clearAppPreferences() async {
-    final file = await _localFileAppPreferences;
     // Write the file
     file.writeAsString('');
   }

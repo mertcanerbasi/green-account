@@ -27,3 +27,18 @@ var years = [
   '2031',
   '2032'
 ];
+
+var monthsEn = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+];

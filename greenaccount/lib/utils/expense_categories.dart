@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:greenaccount/utils/colors.dart';
 
-final List<String> expenseCategoriesTexts = ["Konut", "Fatura", "Kredi Kartı", "Birikim", "Diğer"];
+final List<String> expenseCategoriesTexts = [
+  "Konut",
+  "Fatura",
+  "Kredi Kartı",
+  "Birikim",
+  "Diğer"
+];
+final List<String> expenseCategoriesTextsEn = [
+  "Housing",
+  "Bills",
+  "Credit Card",
+  "Savings",
+  "Other"
+];
 final List<Icon> expenseCategoriesIcons = [
   const Icon(
     Icons.apartment,
@@ -25,4 +38,10 @@ final List<Icon> expenseCategoriesIcons = [
   )
 ];
 
-final List<Color> expenseCategoriesColors = [primaryOrange, primaryRed, primaryBlue, primaryPink, primaryBrown];
+final List<Color> expenseCategoriesColors = [
+  primaryOrange,
+  primaryRed,
+  primaryBlue,
+  primaryPink,
+  primaryBrown
+];
