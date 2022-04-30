@@ -6,6 +6,8 @@ import 'package:greenaccount/pages/settings_page/settings_page.dart';
 import 'package:greenaccount/pages/summary_page/summary_page.dart';
 import 'package:greenaccount/utils/colors.dart';
 
+import '../models/app_preferences_model.dart';
+import '../services/sharedPref.dart';
 import 'edit_balance/edit_balance_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,6 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _activePage = 0;
   PageController? _pageController;
+  final DataService _dataService = DataService();
 
   @override
   void initState() {

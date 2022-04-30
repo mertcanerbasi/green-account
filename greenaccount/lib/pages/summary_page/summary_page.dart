@@ -32,8 +32,8 @@ class _SummaryPageState extends State<SummaryPage> {
     "Gider Girilmedi": 1,
   };
 
-  String dropdownvalue_month = 'Ocak';
-  String dropdownvalue_year = DateTime.now().year.toString();
+  String dropdownValueMonth = 'Ocak';
+  String dropdownValueYear = DateTime.now().year.toString();
   // List of items in our dropdown menu
 
   void _readExpenseList() async {
@@ -58,7 +58,6 @@ class _SummaryPageState extends State<SummaryPage> {
   void _readIncomesList() async {
     List<IncomeExpenseModel>? list = await _dataService.readIncomeList();
     setState(() {
-      print(list);
       _incomesList = list;
       _incomesList?.forEach((element) {
         if (element.isGelir) {
@@ -156,7 +155,7 @@ class _SummaryPageState extends State<SummaryPage> {
                               child: DropdownButton(
                                 elevation: 3,
                                 borderRadius: BorderRadius.circular(20),
-                                value: dropdownvalue_month,
+                                value: dropdownValueMonth,
                                 // Down Arrow Icon
                                 icon: const Icon(Icons.keyboard_arrow_down),
 
@@ -171,7 +170,7 @@ class _SummaryPageState extends State<SummaryPage> {
                                 // change button value to selected value
                                 onChanged: (String? newValue) {
                                   setState(() {
-                                    dropdownvalue_month = newValue!;
+                                    dropdownValueMonth = newValue!;
                                   });
                                 },
                               ),
@@ -194,7 +193,7 @@ class _SummaryPageState extends State<SummaryPage> {
                             child: DropdownButton(
                               elevation: 3,
                               borderRadius: BorderRadius.circular(20),
-                              value: dropdownvalue_year,
+                              value: dropdownValueYear,
 
                               // Down Arrow Icon
                               icon: const Icon(Icons.keyboard_arrow_down),
@@ -210,7 +209,7 @@ class _SummaryPageState extends State<SummaryPage> {
                               // change button value to selected value
                               onChanged: (String? newValue) {
                                 setState(() {
-                                  dropdownvalue_year = newValue!;
+                                  dropdownValueYear = newValue!;
                                 });
                               },
                             ),
@@ -388,7 +387,7 @@ class _SummaryPageState extends State<SummaryPage> {
                       ? Padding(
                           padding: const EdgeInsets.symmetric(
                               vertical: 20, horizontal: 10),
-                          child: Container(
+                          child: SizedBox(
                             height: 300,
                             child: charts.BarChart(
                               series,
