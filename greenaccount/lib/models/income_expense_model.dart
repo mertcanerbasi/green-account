@@ -22,9 +22,10 @@ class IncomeExpenseModel {
     required this.sonOdemeTarihi,
   });
 
-  Map<String, double> toPieChartMap() {
+  Map<String, double> toPieChartMap(String language) {
     // ignore: unnecessary_this
-    String data = '{ "${this.kategori}": ${this.miktar} }';
+    String data =
+        '{ "${language == "en" ? (kategori == "Kredi Kartı" ? "Credit Card" : kategori == "Konut" ? "Housing" : kategori == "Fatura" ? "Bills" : kategori == "Birikim" ? "Savings" : kategori == "Diğer" ? "Other" : null) : kategori}": $miktar }';
     Map<String, dynamic> mappedData = jsonDecode(data);
     Map<String, double> returnData = mappedData
         .map((key, value) => MapEntry(key, double.parse(value.toString())));

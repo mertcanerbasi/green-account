@@ -1,13 +1,17 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:greenaccount/pages/settings_page/pages/about_app_page.dart';
 import 'package:greenaccount/pages/settings_page/pages/clear_data_page.dart';
+import 'package:greenaccount/pages/settings_page/pages/help_page.dart';
 import 'package:greenaccount/pages/settings_page/pages/language_selection_page.dart';
+import 'package:greenaccount/pages/settings_page/pages/app_lock_page.dart';
+import 'package:greenaccount/pages/settings_page/pages/privacy_page.dart';
+import 'package:greenaccount/pages/settings_page/pages/share_page.dart';
 import 'package:greenaccount/pages/settings_page/widgets/settings_listtile_widget.dart';
 import 'package:greenaccount/pages/settings_page/widgets/settings_switchtile_widget.dart';
 import 'package:provider/provider.dart';
 import '../../models/language_model.dart';
 import '../../models/theme_model.dart';
+import '../../utils/adaptivescreensize.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -36,7 +40,11 @@ class _SettingsPageState extends State<SettingsPage> {
             text:
                 languageNotifier.lang == "en" ? "App Lock" : "Uygulama Kilidi",
             function: () {
-              log("TODO : Uygulama Kilidi Bölümü Eklenecek");
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AppLockPage(),
+                  ));
             },
             icon: Icon(
               Icons.security_outlined,
@@ -44,7 +52,11 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            padding: EdgeInsets.only(
+                top: const AdaptiveScreenSize()
+                    .getadaptiveScreenSizeHeight(context, 10),
+                bottom: const AdaptiveScreenSize()
+                    .getadaptiveScreenSizeHeight(context, 10)),
             child: InkWell(
               onTap: () {
                 Navigator.push(
@@ -74,14 +86,24 @@ class _SettingsPageState extends State<SettingsPage> {
             text: languageNotifier.lang == "en"
                 ? "Terms of Privacy"
                 : "Gizlilik Şartları",
-            function: null,
+            function: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PrivacyPage(),
+                  ));
+            },
             icon: Icon(
               Icons.privacy_tip_outlined,
               color: themeNotifier.isDark ? Colors.white : Colors.black,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            padding: EdgeInsets.only(
+                top: const AdaptiveScreenSize()
+                    .getadaptiveScreenSizeHeight(context, 10),
+                bottom: const AdaptiveScreenSize()
+                    .getadaptiveScreenSizeHeight(context, 10)),
             child: InkWell(
               onTap: () {
                 Navigator.push(
@@ -110,7 +132,11 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsListTileWidget(
             text: languageNotifier.lang == "en" ? "Help" : "Yardım",
             function: () {
-              log("TODO : Destek Bölümü Eklenecek");
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HelpPage(),
+                  ));
             },
             icon: Icon(
               Icons.support_outlined,
@@ -122,7 +148,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 ? "About App"
                 : "Uygulama Hakkında",
             function: () {
-              log("TODO : Hakkında Bölümü Eklenecek");
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AboutAppPage(),
+                  ));
             },
             icon: Icon(
               Icons.info_outline,
@@ -132,7 +162,11 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingsListTileWidget(
             text: languageNotifier.lang == "en" ? "Share" : "Paylaş",
             function: () {
-              log("TODO : Paylaş Bölümü Eklenecek");
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SharePage(),
+                  ));
             },
             icon: Icon(
               Icons.share_outlined,

@@ -85,7 +85,6 @@ class _HomePageState extends State<HomePage> {
             const BottomNavigationBarItem(
               icon: Icon(
                 Icons.add_circle_outline,
-                size: 50,
               ),
               label: '',
             ),

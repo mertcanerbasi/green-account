@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../models/income_expense_model.dart';
 import '../../models/language_model.dart';
 import '../../models/theme_model.dart';
+import '../../utils/adaptivescreensize.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
@@ -45,40 +46,48 @@ class _HistoryPageState extends State<HistoryPage> {
             child: CircularProgressIndicator.adaptive(),
           )
         : (notificationsList?.isNotEmpty == true
-            ? ListView.builder(
-                reverse: true,
-                itemCount: notificationsList?.length,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 70,
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.currency_lira_outlined,
-                        color: notificationsList?[index].isGelir == true
-                            ? primaryGreen
-                            : primaryRed,
+            ? Align(
+                alignment: Alignment.topCenter,
+                child: ListView.builder(
+                  addAutomaticKeepAlives: true,
+                  shrinkWrap: true,
+                  reverse: true,
+                  itemCount: notificationsList?.length,
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                      height: const AdaptiveScreenSize()
+                          .getadaptiveScreenSizeHeight(context, 70),
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.currency_lira_outlined,
+                          color: notificationsList?[index].isGelir == true
+                              ? primaryGreen
+                              : primaryRed,
+                        ),
+                        title: Text(
+                          "${notificationsList?[index].kalemAdi}",
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: notificationsList?[index].isGelir == true
+                            ? Text(
+                                "${notificationsList?[index].sonOdemeTarihi}")
+                            : Text(
+                                "${notificationsList?[index].sonOdemeTarihi}"),
+                        trailing: notificationsList?[index].isGelir == true
+                            ? Text(
+                                "${oCcy.format(notificationsList?[index].miktar)} ₺",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Text(
+                                "-${oCcy.format(notificationsList?[index].miktar)} ₺",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
                       ),
-                      title: Text(
-                        "${notificationsList?[index].kalemAdi}",
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: notificationsList?[index].isGelir == true
-                          ? Text("${notificationsList?[index].sonOdemeTarihi}")
-                          : Text("${notificationsList?[index].sonOdemeTarihi}"),
-                      trailing: notificationsList?[index].isGelir == true
-                          ? Text(
-                              "${oCcy.format(notificationsList?[index].miktar)} ₺",
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            )
-                          : Text(
-                              "-${oCcy.format(notificationsList?[index].miktar)} ₺",
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               )
             : Consumer2<ThemeModel, LanguageModel>(builder: (context,
                 ThemeModel themeNotifier,
@@ -89,7 +98,8 @@ class _HistoryPageState extends State<HistoryPage> {
                   children: [
                     Icon(
                       Icons.warning,
-                      size: 100,
+                      size: const AdaptiveScreenSize()
+                          .getadaptiveScreenSizeHeight(context, 100),
                       color: primaryYellow,
                     ),
                     const SizedBox(
@@ -100,7 +110,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         languageNotifier.lang == "en"
                             ? "No History Record Found"
                             : "Geçmiş Kayıt Bulunmuyor",
-                        style: TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 20),
                       ),
                     ),
                   ],

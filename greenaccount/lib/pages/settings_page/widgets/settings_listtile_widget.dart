@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/theme_model.dart';
+import '../../../utils/adaptivescreensize.dart';
 
 class SettingsListTileWidget extends StatefulWidget {
   final String text;
@@ -21,7 +22,11 @@ class _SettingsListTileWidgetState extends State<SettingsListTileWidget> {
     return Consumer<ThemeModel>(
         builder: (context, ThemeModel themeNotifier, child) {
       return Padding(
-        padding: const EdgeInsets.only(top: 10, bottom: 10),
+        padding: EdgeInsets.only(
+            top: const AdaptiveScreenSize()
+                .getadaptiveScreenSizeHeight(context, 10),
+            bottom: const AdaptiveScreenSize()
+                .getadaptiveScreenSizeHeight(context, 10)),
         child: InkWell(
           onTap: widget.function,
           child: ListTile(

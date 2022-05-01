@@ -19,8 +19,9 @@ class LanguageModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  getPreferences() async {
+  Future<String> getPreferences() async {
     _lang = await _preferences.getLang();
     notifyListeners();
+    return _lang;
   }
 }

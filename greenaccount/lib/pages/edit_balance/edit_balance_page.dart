@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../models/language_model.dart';
 import '../../models/theme_model.dart';
+import '../../utils/adaptivescreensize.dart';
 import '../../utils/colors.dart';
 import '../../utils/expense_categories.dart';
 
@@ -76,19 +77,28 @@ class _EditBalancePageState extends State<EditBalancePage> {
     return Consumer2<ThemeModel, LanguageModel>(builder: (context,
         ThemeModel themeNotifier, LanguageModel languageNotifier, child) {
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: EdgeInsets.symmetric(
+            horizontal: const AdaptiveScreenSize()
+                .getadaptiveScreenSizeWidth(context, 10)),
         child: ListView(
           children: [
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: const AdaptiveScreenSize()
+                  .getadaptiveScreenSizeHeight(context, 20),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+              padding: EdgeInsets.only(
+                  top: const AdaptiveScreenSize()
+                      .getadaptiveScreenSizeHeight(context, 20),
+                  left: const AdaptiveScreenSize()
+                      .getadaptiveScreenSizeWidth(context, 10),
+                  right: const AdaptiveScreenSize()
+                      .getadaptiveScreenSizeWidth(context, 10)),
               child: SizedBox(
-                height: 40,
-                width: double.infinity,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                height: const AdaptiveScreenSize()
+                    .getadaptiveScreenSizeHeight(context, 40),
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
                   children: [
                     GestureDetector(
                       onTap: () {
@@ -97,10 +107,12 @@ class _EditBalancePageState extends State<EditBalancePage> {
                         });
                       },
                       child: Container(
-                        width: 180,
+                        width: const AdaptiveScreenSize()
+                            .getadaptiveScreenSizeWidth(context, 180),
                         decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
+                            borderRadius: BorderRadius.all(Radius.circular(
+                                const AdaptiveScreenSize()
+                                    .getadaptiveScreenSizeWidth(context, 10))),
                             border: Border.all(width: 1, color: primaryOrange),
                             color: _selectedProcess == "Expense"
                                 ? (themeNotifier.isDark
@@ -116,6 +128,10 @@ class _EditBalancePageState extends State<EditBalancePage> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      width: const AdaptiveScreenSize()
+                          .getadaptiveScreenSizeWidth(context, 20),
+                    ),
                     GestureDetector(
                       onTap: () {
                         setState(() {
@@ -123,10 +139,12 @@ class _EditBalancePageState extends State<EditBalancePage> {
                         });
                       },
                       child: Container(
-                        width: 180,
+                        width: const AdaptiveScreenSize()
+                            .getadaptiveScreenSizeWidth(context, 180),
                         decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
+                            borderRadius: BorderRadius.all(Radius.circular(
+                                const AdaptiveScreenSize()
+                                    .getadaptiveScreenSizeHeight(context, 10))),
                             border: Border.all(width: 1, color: primaryOrange),
                             color: _selectedProcess == "Income"
                                 ? (themeNotifier.isDark
@@ -146,8 +164,9 @@ class _EditBalancePageState extends State<EditBalancePage> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: const AdaptiveScreenSize()
+                  .getadaptiveScreenSizeHeight(context, 20),
             ),
             _selectedProcess == "Expense"
                 ? Form(
@@ -155,10 +174,13 @@ class _EditBalancePageState extends State<EditBalancePage> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          padding: EdgeInsets.symmetric(
+                              vertical: const AdaptiveScreenSize()
+                                  .getadaptiveScreenSizeHeight(context, 20)),
                           child: TextFormField(
                             autocorrect: false,
                             cursorColor: primaryOrange,
+                            maxLength: 20,
                             controller: _kalemController,
                             decoration: InputDecoration(
                               label: Text(languageNotifier.lang == "en"
@@ -187,7 +209,9 @@ class _EditBalancePageState extends State<EditBalancePage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          padding: EdgeInsets.symmetric(
+                              vertical: const AdaptiveScreenSize()
+                                  .getadaptiveScreenSizeHeight(context, 20)),
                           child: TextFormField(
                             autocorrect: false,
                             cursorColor: primaryOrange,
@@ -219,22 +243,29 @@ class _EditBalancePageState extends State<EditBalancePage> {
                                 return languageNotifier.lang == "en"
                                     ? "Use dot for decimal place"
                                     : "Ondalık basamak için nokta kullanınız";
+                              } else if (double.parse(value) <= 0) {
+                                return languageNotifier.lang == "en"
+                                    ? "Amount must be greater than zero"
+                                    : "Miktar sıfırdan büyük olmalıdır";
                               }
                               return null;
                             },
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          padding: EdgeInsets.symmetric(
+                              vertical: const AdaptiveScreenSize()
+                                  .getadaptiveScreenSizeHeight(context, 20)),
                           child: TextFormField(
                             autocorrect: false,
                             cursorColor: primaryOrange,
+                            maxLength: 10,
                             keyboardType: TextInputType.datetime,
                             controller: _sonOdemeController,
                             decoration: InputDecoration(
                                 label: Text(languageNotifier.lang == "en"
-                                    ? "Due Date"
-                                    : "Son Ödeme Tarihi"),
+                                    ? "Due Date (dd-MM-yyyy)"
+                                    : "Son Ödeme Tarihi (gg-AA-yyyy)"),
                                 icon: const Icon(
                                   Icons.date_range,
                                   color: primaryOrange,
@@ -248,25 +279,46 @@ class _EditBalancePageState extends State<EditBalancePage> {
                                 labelStyle:
                                     const TextStyle(color: primaryOrange)),
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
+                              try {
+                                if (value == null || value.isEmpty) {
+                                  return languageNotifier.lang == "en"
+                                      ? "Due Date cannot be empty"
+                                      : "Son Ödeme Tarihi boş bırakılamaz";
+                                } else if (int.parse(value.substring(0, 1)) >
+                                    31) {
+                                  return languageNotifier.lang == "en"
+                                      ? "Please enter format as dd-mm-yyyy"
+                                      : "Lütfen gg-AA-yyyy şeklinde giriş yapınız";
+                                } else if (int.parse(value.substring(3, 5)) >
+                                    12) {
+                                  return languageNotifier.lang == "en"
+                                      ? "Please enter format as dd-mm-yyyy"
+                                      : "Lütfen gg-AA-yyyy şeklinde giriş yapınız";
+                                }
+                              } catch (e) {
                                 return languageNotifier.lang == "en"
-                                    ? "Due Date cannot be empty"
-                                    : "Son Ödeme Tarihi boş bırakılamaz";
+                                    ? "Please enter format as dd-mm-yyyy"
+                                    : "Lütfen gg-AA-yyyy şeklinde giriş yapınız";
                               }
                               return null;
                             },
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          padding: EdgeInsets.symmetric(
+                              vertical: const AdaptiveScreenSize()
+                                  .getadaptiveScreenSizeHeight(context, 20)),
                           child: SizedBox(
-                            height: 30,
+                            height: const AdaptiveScreenSize()
+                                .getadaptiveScreenSizeHeight(context, 30),
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: expenseCategoriesTexts.length,
                               itemBuilder: (context, index) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: const AdaptiveScreenSize()
+                                        .getadaptiveScreenSizeWidth(
+                                            context, 5)),
                                 child: InkWell(
                                   onTap: () {
                                     setState(() {
@@ -275,17 +327,24 @@ class _EditBalancePageState extends State<EditBalancePage> {
                                     });
                                   },
                                   child: Container(
-                                    width: 150,
+                                    width: const AdaptiveScreenSize()
+                                        .getadaptiveScreenSizeWidth(
+                                            context, 150),
                                     decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(10)),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(
+                                              const AdaptiveScreenSize()
+                                                  .getadaptiveScreenSizeWidth(
+                                                      context, 10))),
                                       border: Border.all(
                                           width: 1,
                                           color:
                                               expenseCategoriesColors[index]),
                                       color: _selectedCategory ==
                                               expenseCategoriesTexts[index]
-                                          ? Colors.orange[100]
+                                          ? (themeNotifier.isDark
+                                              ? Colors.grey[600]
+                                              : Colors.orange[50])
                                           : null,
                                     ),
                                     child: Row(
@@ -312,8 +371,11 @@ class _EditBalancePageState extends State<EditBalancePage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 90, vertical: 60),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: const AdaptiveScreenSize()
+                                  .getadaptiveScreenSizeWidth(context, 90),
+                              vertical: const AdaptiveScreenSize()
+                                  .getadaptiveScreenSizeHeight(context, 60)),
                           child: InkWell(
                             onTap: () {
                               if (_formKey.currentState!.validate()) {
@@ -443,7 +505,8 @@ class _EditBalancePageState extends State<EditBalancePage> {
                               }
                             },
                             child: Container(
-                              height: 50,
+                              height: const AdaptiveScreenSize()
+                                  .getadaptiveScreenSizeHeight(context, 50),
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 borderRadius:
@@ -466,11 +529,14 @@ class _EditBalancePageState extends State<EditBalancePage> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          padding: EdgeInsets.symmetric(
+                              vertical: const AdaptiveScreenSize()
+                                  .getadaptiveScreenSizeHeight(context, 20)),
                           child: TextFormField(
                             autocorrect: false,
                             cursorColor: primaryOrange,
                             controller: _kalemController,
+                            maxLength: 20,
                             decoration: InputDecoration(
                               label: Text(languageNotifier.lang == "en"
                                   ? "Income Name"
@@ -498,7 +564,9 @@ class _EditBalancePageState extends State<EditBalancePage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          padding: EdgeInsets.symmetric(
+                              vertical: const AdaptiveScreenSize()
+                                  .getadaptiveScreenSizeHeight(context, 20)),
                           child: TextFormField(
                             autocorrect: false,
                             cursorColor: primaryOrange,
@@ -530,22 +598,29 @@ class _EditBalancePageState extends State<EditBalancePage> {
                                 return languageNotifier.lang == "en"
                                     ? "Use dot for decimal place"
                                     : "Ondalık basamak için nokta kullanınız";
+                              } else if (double.parse(value) <= 0) {
+                                return languageNotifier.lang == "en"
+                                    ? "Amount must be greater than zero"
+                                    : "Miktar sıfırdan büyük olmalıdır";
                               }
                               return null;
                             },
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          padding: EdgeInsets.symmetric(
+                              vertical: const AdaptiveScreenSize()
+                                  .getadaptiveScreenSizeHeight(context, 20)),
                           child: TextFormField(
                             autocorrect: false,
                             cursorColor: primaryOrange,
                             keyboardType: TextInputType.datetime,
+                            maxLength: 10,
                             controller: _sonOdemeController,
                             decoration: InputDecoration(
                                 label: Text(languageNotifier.lang == "en"
-                                    ? "Income Date"
-                                    : "Gelir Tarihi"),
+                                    ? "Income Date (dd-MM-yyyy)"
+                                    : "Gelir Tarihi (gg-AA-yyyy)"),
                                 icon: const Icon(
                                   Icons.date_range,
                                   color: primaryOrange,
@@ -559,18 +634,40 @@ class _EditBalancePageState extends State<EditBalancePage> {
                                 labelStyle:
                                     const TextStyle(color: primaryOrange)),
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
+                              try {
+                                if (value == null || value.isEmpty) {
+                                  return languageNotifier.lang == "en"
+                                      ? "Due Date cannot be empty"
+                                      : "Son Ödeme Tarihi boş bırakılamaz";
+                                } else if (int.parse(value.substring(0, 1)) >
+                                    31) {
+                                  return languageNotifier.lang == "en"
+                                      ? "Please enter format as dd-mm-yyyy"
+                                      : "Lütfen gg-AA-yyyy şeklinde giriş yapınız";
+                                } else if (int.parse(value.substring(3, 5)) >
+                                    12) {
+                                  return languageNotifier.lang == "en"
+                                      ? "Please enter format as dd-mm-yyyy"
+                                      : "Lütfen gg-AA-yyyy şeklinde giriş yapınız";
+                                }
+                              } catch (e) {
                                 return languageNotifier.lang == "en"
-                                    ? "Due Date cannot be empty"
-                                    : "Son Ödeme Tarihi boş bırakılamaz";
+                                    ? "Please enter format as dd-mm-yyyy"
+                                    : "Lütfen gg-AA-yyyy şeklinde giriş yapınız";
                               }
+
                               return null;
                             },
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(
-                              left: 90, right: 90, top: 130),
+                          padding: EdgeInsets.only(
+                              left: const AdaptiveScreenSize()
+                                  .getadaptiveScreenSizeWidth(context, 90),
+                              right: const AdaptiveScreenSize()
+                                  .getadaptiveScreenSizeWidth(context, 90),
+                              top: const AdaptiveScreenSize()
+                                  .getadaptiveScreenSizeHeight(context, 130)),
                           child: InkWell(
                             onTap: () {
                               if (_formKey2.currentState!.validate()) {
@@ -695,11 +792,14 @@ class _EditBalancePageState extends State<EditBalancePage> {
                               }
                             },
                             child: Container(
-                              height: 50,
+                              height: const AdaptiveScreenSize()
+                                  .getadaptiveScreenSizeHeight(context, 50),
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
+                                borderRadius: BorderRadius.all(Radius.circular(
+                                    const AdaptiveScreenSize()
+                                        .getadaptiveScreenSizeWidth(
+                                            context, 10))),
                                 border:
                                     Border.all(width: 1, color: primaryOrange),
                               ),

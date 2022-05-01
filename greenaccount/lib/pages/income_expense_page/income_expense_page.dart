@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../models/language_model.dart';
 import '../../models/theme_model.dart';
 import '../../services/sharedPref.dart';
+import '../../utils/adaptivescreensize.dart';
 
 class IncomeExpensePage extends StatefulWidget {
   const IncomeExpensePage({Key? key}) : super(key: key);
@@ -86,16 +87,22 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
         : Consumer2<ThemeModel, LanguageModel>(builder: (context,
             ThemeModel themeNotifier, LanguageModel languageNotifier, child) {
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
+              padding: EdgeInsets.symmetric(
+                  horizontal: const AdaptiveScreenSize()
+                      .getadaptiveScreenSizeWidth(context, 5)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 10),
+                    padding: EdgeInsets.only(
+                        top: const AdaptiveScreenSize()
+                            .getadaptiveScreenSizeHeight(context, 20)),
                     child: SizedBox(
                       height: 50,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: const AdaptiveScreenSize()
+                                .getadaptiveScreenSizeWidth(context, 20)),
                         child: Column(
                           children: [
                             Expanded(
@@ -103,7 +110,9 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SizedBox(
-                                    width: 100,
+                                    width: const AdaptiveScreenSize()
+                                        .getadaptiveScreenSizeWidth(
+                                            context, 100),
                                     child: Center(
                                       child: Text(
                                         languageNotifier.lang == "en"
@@ -120,7 +129,9 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                     color: primaryOrange,
                                   ),
                                   SizedBox(
-                                    width: 100,
+                                    width: const AdaptiveScreenSize()
+                                        .getadaptiveScreenSizeWidth(
+                                            context, 100),
                                     child: Center(
                                       child: Text(
                                         languageNotifier.lang == "en"
@@ -137,7 +148,9 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                     color: primaryOrange,
                                   ),
                                   SizedBox(
-                                    width: 100,
+                                    width: const AdaptiveScreenSize()
+                                        .getadaptiveScreenSizeWidth(
+                                            context, 100),
                                     child: Center(
                                       child: Text(
                                         languageNotifier.lang == "en"
@@ -158,7 +171,9 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SizedBox(
-                                    width: 100,
+                                    width: const AdaptiveScreenSize()
+                                        .getadaptiveScreenSizeWidth(
+                                            context, 100),
                                     child: Center(
                                       child: Text(
                                         "${oCcy.format(_debtAmount)} ₺",
@@ -173,7 +188,9 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                     color: primaryOrange,
                                   ),
                                   SizedBox(
-                                    width: 100,
+                                    width: const AdaptiveScreenSize()
+                                        .getadaptiveScreenSizeWidth(
+                                            context, 100),
                                     child: Center(
                                       child: Text(
                                         "${oCcy.format(_paidAmount)} ₺",
@@ -188,7 +205,9 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                     color: primaryOrange,
                                   ),
                                   SizedBox(
-                                    width: 100,
+                                    width: const AdaptiveScreenSize()
+                                        .getadaptiveScreenSizeWidth(
+                                            context, 100),
                                     child: Center(
                                       child: Text(
                                         "${oCcy.format(_remainingAmount)} ₺",
@@ -208,20 +227,25 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    padding: EdgeInsets.symmetric(
+                        vertical: const AdaptiveScreenSize()
+                            .getadaptiveScreenSizeHeight(context, 20)),
                     child: Column(
                       children: [
-                        const SizedBox(
-                          height: 10,
+                        SizedBox(
+                          height: const AdaptiveScreenSize()
+                              .getadaptiveScreenSizeHeight(context, 10),
                         ),
                         SizedBox(
-                          height: 30,
+                          height: const AdaptiveScreenSize()
+                              .getadaptiveScreenSizeHeight(context, 30),
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: expenseCategoriesTexts.length,
                             itemBuilder: (context, index) => Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: const AdaptiveScreenSize()
+                                      .getadaptiveScreenSizeWidth(context, 5)),
                               child: InkWell(
                                 onTap: () {
                                   setState(() {
@@ -241,16 +265,22 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                   });
                                 },
                                 child: Container(
-                                  width: 150,
+                                  width: const AdaptiveScreenSize()
+                                      .getadaptiveScreenSizeWidth(context, 150),
                                   decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10)),
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(
+                                            const AdaptiveScreenSize()
+                                                .getadaptiveScreenSizeHeight(
+                                                    context, 10))),
                                     border: Border.all(
                                         width: 1,
                                         color: expenseCategoriesColors[index]),
                                     color: _selectedCategory ==
                                             expenseCategoriesTexts[index]
-                                        ? Colors.orange[100]
+                                        ? (themeNotifier.isDark
+                                            ? Colors.grey[600]
+                                            : Colors.orange[50])
                                         : null,
                                   ),
                                   child: Row(
@@ -277,14 +307,21 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                         ),
                         _selectedExpenseList?.isNotEmpty == true
                             ? Padding(
-                                padding: const EdgeInsets.only(top: 20),
+                                padding: EdgeInsets.only(
+                                    top: const AdaptiveScreenSize()
+                                        .getadaptiveScreenSizeHeight(
+                                            context, 20)),
                                 child: SizedBox(
-                                    height: 460,
+                                    height: const AdaptiveScreenSize()
+                                        .getadaptiveScreenSizeHeight(
+                                            context, 460),
                                     child: ListView.builder(
                                       itemCount: _selectedExpenseList?.length,
                                       itemBuilder: (context, index) => Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 10),
+                                          padding: EdgeInsets.only(
+                                              top: const AdaptiveScreenSize()
+                                                  .getadaptiveScreenSizeHeight(
+                                                      context, 10)),
                                           child: InkWell(
                                             onLongPress: () {
                                               showDialog(
@@ -433,11 +470,15 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                               );
                                             },
                                             child: Container(
-                                              height: 70,
+                                              height: const AdaptiveScreenSize()
+                                                  .getadaptiveScreenSizeHeight(
+                                                      context, 70),
                                               decoration: BoxDecoration(
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(10)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(
+                                                        const AdaptiveScreenSize()
+                                                            .getadaptiveScreenSizeHeight(
+                                                                context, 10))),
                                                 border: Border.all(
                                                     width: 0.5,
                                                     color: Colors.black),
@@ -529,17 +570,24 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                     )),
                               )
                             : Padding(
-                                padding: const EdgeInsets.only(top: 200),
+                                padding: EdgeInsets.only(
+                                    top: const AdaptiveScreenSize()
+                                        .getadaptiveScreenSizeHeight(
+                                            context, 200)),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
                                       Icons.warning,
-                                      size: 100,
+                                      size: const AdaptiveScreenSize()
+                                          .getadaptiveScreenSizeHeight(
+                                              context, 100),
                                       color: primaryYellow,
                                     ),
-                                    const SizedBox(
-                                      height: 20,
+                                    SizedBox(
+                                      height: const AdaptiveScreenSize()
+                                          .getadaptiveScreenSizeHeight(
+                                              context, 20),
                                     ),
                                     Center(
                                       child: Text(
