@@ -4,6 +4,7 @@ import 'package:greenaccount/pages/history_page/history_page.dart';
 import 'package:greenaccount/pages/income_expense_page/income_expense_page.dart';
 import 'package:greenaccount/pages/settings_page/settings_page.dart';
 import 'package:greenaccount/pages/summary_page/summary_page.dart';
+import 'package:greenaccount/utils/adaptivetextsize.dart';
 import 'package:greenaccount/utils/colors.dart';
 import 'package:provider/provider.dart';
 import '../models/language_model.dart';
@@ -43,7 +44,8 @@ class _HomePageState extends State<HomePage> {
           title: Text(
             'M&M Bank',
             style: GoogleFonts.genos(
-              fontSize: 25,
+              fontSize:
+                  const AdaptiveTextSize().getadaptiveTextSize(context, 25),
             ),
           ),
           actions: [

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../models/theme_model.dart';
 import '../../../utils/adaptivescreensize.dart';
+import '../../../utils/adaptivetextsize.dart';
 
 class SettingsSwitchTileWidget extends StatefulWidget {
   final String text;
@@ -30,7 +31,9 @@ class _SettingsSwitchTileWidgetState extends State<SettingsSwitchTileWidget> {
           leading: const Icon(Icons.color_lens),
           title: Text(
             widget.text,
-            style: const TextStyle(fontSize: 20),
+            style: TextStyle(
+                fontSize:
+                    const AdaptiveTextSize().getadaptiveTextSize(context, 20)),
           ),
           trailing: Switch.adaptive(
               activeColor: Colors.black,

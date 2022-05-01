@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../models/language_model.dart';
 import '../../models/theme_model.dart';
 import '../../utils/adaptivescreensize.dart';
+import '../../utils/adaptivetextsize.dart';
 import '../../utils/colors.dart';
 import '../../utils/expense_categories.dart';
 
@@ -124,7 +125,9 @@ class _EditBalancePageState extends State<EditBalancePage> {
                               languageNotifier.lang == "en"
                                   ? "Expense"
                                   : "Gider",
-                              style: const TextStyle(fontSize: 20)),
+                              style: TextStyle(
+                                  fontSize: const AdaptiveTextSize()
+                                      .getadaptiveTextSize(context, 20))),
                         ),
                       ),
                     ),
@@ -156,7 +159,9 @@ class _EditBalancePageState extends State<EditBalancePage> {
                               languageNotifier.lang == "en"
                                   ? "Income"
                                   : "Gelir",
-                              style: const TextStyle(fontSize: 20)),
+                              style: TextStyle(
+                                  fontSize: const AdaptiveTextSize()
+                                      .getadaptiveTextSize(context, 20))),
                         ),
                       ),
                     ),
@@ -215,6 +220,7 @@ class _EditBalancePageState extends State<EditBalancePage> {
                           child: TextFormField(
                             autocorrect: false,
                             cursorColor: primaryOrange,
+                            maxLength: 10,
                             controller: _tutarController,
                             keyboardType: const TextInputType.numberWithOptions(
                                 decimal: true),

@@ -9,6 +9,7 @@ import '../../models/language_model.dart';
 import '../../models/theme_model.dart';
 import '../../services/sharedPref.dart';
 import '../../utils/adaptivescreensize.dart';
+import '../../utils/adaptivetextsize.dart';
 import '../../utils/colors.dart';
 import '../../utils/months_years.dart';
 
@@ -303,7 +304,9 @@ class _SummaryPageState extends State<SummaryPage> {
                         : const Text("Toplam Gelir"),
                     trailing: Text(
                       "${oCcy.format(_incomeAmount)} ₺",
-                      style: const TextStyle(fontSize: 20),
+                      style: TextStyle(
+                          fontSize: const AdaptiveTextSize()
+                              .getadaptiveTextSize(context, 20)),
                     ),
                   ),
                 ),
@@ -318,7 +321,9 @@ class _SummaryPageState extends State<SummaryPage> {
                         : const Text("Toplam Gider"),
                     trailing: Text(
                       "${oCcy.format(_debtAmount)} ₺",
-                      style: const TextStyle(fontSize: 20),
+                      style: TextStyle(
+                          fontSize: const AdaptiveTextSize()
+                              .getadaptiveTextSize(context, 20)),
                     ),
                   ),
                 ),
@@ -333,7 +338,9 @@ class _SummaryPageState extends State<SummaryPage> {
                         : const Text("Ödenen Gider"),
                     trailing: Text(
                       "${oCcy.format(_paidAmount)} ₺",
-                      style: const TextStyle(fontSize: 20),
+                      style: TextStyle(
+                          fontSize: const AdaptiveTextSize()
+                              .getadaptiveTextSize(context, 20)),
                     ),
                   ),
                 ),
@@ -348,7 +355,9 @@ class _SummaryPageState extends State<SummaryPage> {
                         : const Text("Kalan Gider"),
                     trailing: Text(
                       "${oCcy.format(_remainingAmount)} ₺",
-                      style: const TextStyle(fontSize: 20),
+                      style: TextStyle(
+                          fontSize: const AdaptiveTextSize()
+                              .getadaptiveTextSize(context, 20)),
                     ),
                   ),
                 ),
@@ -363,7 +372,9 @@ class _SummaryPageState extends State<SummaryPage> {
                         : const Text("Kalan Nakit"),
                     trailing: Text(
                       "${oCcy.format(_incomeAmount - _debtAmount)} ₺",
-                      style: const TextStyle(fontSize: 20),
+                      style: TextStyle(
+                          fontSize: const AdaptiveTextSize()
+                              .getadaptiveTextSize(context, 20)),
                     ),
                   ),
                 ),
@@ -378,7 +389,9 @@ class _SummaryPageState extends State<SummaryPage> {
                         : const Text("Toplam Birikim"),
                     trailing: Text(
                       "${oCcy.format(_savingsAmount)} ₺",
-                      style: const TextStyle(fontSize: 20),
+                      style: TextStyle(
+                          fontSize: const AdaptiveTextSize()
+                              .getadaptiveTextSize(context, 20)),
                     ),
                   ),
                 ),
@@ -420,10 +433,16 @@ class _SummaryPageState extends State<SummaryPage> {
                                     : null),
                             child: Center(
                               child: languageNotifier.lang == "en"
-                                  ? const Text("Category Details",
-                                      style: TextStyle(fontSize: 20))
-                                  : const Text("Kategori Detay",
-                                      style: TextStyle(fontSize: 20)),
+                                  ? Text("Category Details",
+                                      style: TextStyle(
+                                          fontSize: const AdaptiveTextSize()
+                                              .getadaptiveTextSize(
+                                                  context, 20)))
+                                  : Text("Kategori Detay",
+                                      style: TextStyle(
+                                          fontSize: const AdaptiveTextSize()
+                                              .getadaptiveTextSize(
+                                                  context, 20))),
                             ),
                           ),
                         ),
@@ -454,10 +473,16 @@ class _SummaryPageState extends State<SummaryPage> {
                                     : null),
                             child: Center(
                               child: languageNotifier.lang == "en"
-                                  ? const Text("Income-Expense",
-                                      style: TextStyle(fontSize: 20))
-                                  : const Text("Gelir-Gider",
-                                      style: TextStyle(fontSize: 20)),
+                                  ? Text("Income-Expense",
+                                      style: TextStyle(
+                                          fontSize: const AdaptiveTextSize()
+                                              .getadaptiveTextSize(
+                                                  context, 20)))
+                                  : Text("Gelir-Gider",
+                                      style: TextStyle(
+                                          fontSize: const AdaptiveTextSize()
+                                              .getadaptiveTextSize(
+                                                  context, 20))),
                             ),
                           ),
                         ),

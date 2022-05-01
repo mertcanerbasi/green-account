@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../../models/language_model.dart';
 import '../../models/theme_model.dart';
 import '../../utils/adaptivescreensize.dart';
+import '../../utils/adaptivetextsize.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -73,7 +74,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   languageNotifier.lang == "en"
                       ? "Clear Data"
                       : "Verileri temizle",
-                  style: const TextStyle(fontSize: 20),
+                  style: TextStyle(
+                      fontSize: const AdaptiveTextSize()
+                          .getadaptiveTextSize(context, 20)),
                 ),
                 trailing: Icon(
                   Icons.adaptive.arrow_forward,
@@ -120,7 +123,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 title: Text(
                   languageNotifier.lang == "en" ? "Language" : "Dil",
-                  style: const TextStyle(fontSize: 20),
+                  style: TextStyle(
+                      fontSize: const AdaptiveTextSize()
+                          .getadaptiveTextSize(context, 20)),
                 ),
                 trailing: Icon(
                   Icons.adaptive.arrow_forward,

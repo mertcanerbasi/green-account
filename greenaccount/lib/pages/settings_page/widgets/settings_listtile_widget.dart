@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../models/theme_model.dart';
 import '../../../utils/adaptivescreensize.dart';
+import '../../../utils/adaptivetextsize.dart';
 
 class SettingsListTileWidget extends StatefulWidget {
   final String text;
@@ -34,7 +35,9 @@ class _SettingsListTileWidgetState extends State<SettingsListTileWidget> {
             leading: widget.icon,
             title: Text(
               widget.text,
-              style: const TextStyle(fontSize: 20),
+              style: TextStyle(
+                  fontSize: const AdaptiveTextSize()
+                      .getadaptiveTextSize(context, 20)),
             ),
             trailing: Icon(
               Icons.adaptive.arrow_forward,

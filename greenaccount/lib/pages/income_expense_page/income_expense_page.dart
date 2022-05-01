@@ -8,6 +8,7 @@ import '../../models/language_model.dart';
 import '../../models/theme_model.dart';
 import '../../services/sharedPref.dart';
 import '../../utils/adaptivescreensize.dart';
+import '../../utils/adaptivetextsize.dart';
 
 class IncomeExpensePage extends StatefulWidget {
   const IncomeExpensePage({Key? key}) : super(key: key);
@@ -98,7 +99,8 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                         top: const AdaptiveScreenSize()
                             .getadaptiveScreenSizeHeight(context, 20)),
                     child: SizedBox(
-                      height: 50,
+                      height: const AdaptiveScreenSize()
+                          .getadaptiveScreenSizeHeight(context, 50),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: const AdaptiveScreenSize()
@@ -119,8 +121,9 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                             ? "Debt"
                                             : "Borç",
                                         textAlign: TextAlign.start,
-                                        style: const TextStyle(
-                                          fontSize: 15,
+                                        style: TextStyle(
+                                          fontSize: const AdaptiveTextSize()
+                                              .getadaptiveTextSize(context, 15),
                                         ),
                                       ),
                                     ),
@@ -138,8 +141,9 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                             ? "Paid"
                                             : "Ödenen",
                                         textAlign: TextAlign.start,
-                                        style: const TextStyle(
-                                          fontSize: 15,
+                                        style: TextStyle(
+                                          fontSize: const AdaptiveTextSize()
+                                              .getadaptiveTextSize(context, 15),
                                         ),
                                       ),
                                     ),
@@ -157,8 +161,9 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                             ? "Remained"
                                             : "Kalan",
                                         textAlign: TextAlign.start,
-                                        style: const TextStyle(
-                                          fontSize: 15,
+                                        style: TextStyle(
+                                          fontSize: const AdaptiveTextSize()
+                                              .getadaptiveTextSize(context, 15),
                                         ),
                                       ),
                                     ),
@@ -178,8 +183,9 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                       child: Text(
                                         "${oCcy.format(_debtAmount)} ₺",
                                         textAlign: TextAlign.start,
-                                        style: const TextStyle(
-                                          fontSize: 15,
+                                        style: TextStyle(
+                                          fontSize: const AdaptiveTextSize()
+                                              .getadaptiveTextSize(context, 15),
                                         ),
                                       ),
                                     ),
@@ -195,8 +201,9 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                       child: Text(
                                         "${oCcy.format(_paidAmount)} ₺",
                                         textAlign: TextAlign.start,
-                                        style: const TextStyle(
-                                          fontSize: 15,
+                                        style: TextStyle(
+                                          fontSize: const AdaptiveTextSize()
+                                              .getadaptiveTextSize(context, 15),
                                         ),
                                       ),
                                     ),
@@ -212,8 +219,9 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                       child: Text(
                                         "${oCcy.format(_remainingAmount)} ₺",
                                         textAlign: TextAlign.start,
-                                        style: const TextStyle(
-                                          fontSize: 15,
+                                        style: TextStyle(
+                                          fontSize: const AdaptiveTextSize()
+                                              .getadaptiveTextSize(context, 15),
                                         ),
                                       ),
                                     ),
@@ -472,7 +480,7 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                             child: Container(
                                               height: const AdaptiveScreenSize()
                                                   .getadaptiveScreenSizeHeight(
-                                                      context, 70),
+                                                      context, 90),
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(
@@ -483,87 +491,91 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                                     width: 0.5,
                                                     color: Colors.black),
                                               ),
-                                              child: ListTile(
-                                                leading: _selectedExpenseList?[
-                                                                index]
-                                                            .kategori ==
-                                                        "Konut"
-                                                    ? const Icon(
-                                                        Icons.apartment,
-                                                        color: primaryOrange,
-                                                      )
-                                                    : _selectedExpenseList?[
-                                                                    index]
-                                                                .kategori ==
-                                                            "Fatura"
-                                                        ? const Icon(
-                                                            Icons.receipt_long,
-                                                            color: primaryRed,
-                                                          )
-                                                        : _selectedExpenseList?[
-                                                                        index]
-                                                                    .kategori ==
-                                                                "Kredi Kartı"
-                                                            ? const Icon(
-                                                                Icons
-                                                                    .credit_card,
-                                                                color:
-                                                                    primaryBlue,
-                                                              )
-                                                            : _selectedExpenseList?[
-                                                                            index]
-                                                                        .kategori ==
-                                                                    "Birikim"
-                                                                ? const Icon(
-                                                                    Icons
-                                                                        .savings_outlined,
-                                                                    color:
-                                                                        primaryPink,
-                                                                  )
-                                                                : const Icon(
-                                                                    Icons
-                                                                        .currency_lira,
-                                                                    color:
-                                                                        primaryBrown,
-                                                                  ),
-                                                title: Text(
-                                                    "${_selectedExpenseList?[index].kalemAdi}\n${oCcy.format(_selectedExpenseList?[index].miktar)} ₺"),
-                                                subtitle: Text(languageNotifier
-                                                            .lang ==
-                                                        "en"
-                                                    ? "Due Date: ${_selectedExpenseList?[index].sonOdemeTarihi}"
-                                                    : "Son ödeme tarihi: ${_selectedExpenseList?[index].sonOdemeTarihi}"),
-                                                trailing: Checkbox(
-                                                    fillColor:
-                                                        MaterialStateProperty
-                                                            .all(primaryOrange),
-                                                    value:
-                                                        _selectedExpenseList?[
-                                                                index]
-                                                            .isOdendi,
-                                                    onChanged: (bool? value) {
-                                                      setState(() {
-                                                        _selectedExpenseList?[
-                                                                index]
-                                                            .isOdendi = value;
-                                                        _selectedExpenseList?[
-                                                                        index]
-                                                                    .isOdendi ==
-                                                                false
-                                                            ? _paidAmount -=
-                                                                _selectedExpenseList![
-                                                                        index]
-                                                                    .miktar
-                                                            : _paidAmount +=
-                                                                _selectedExpenseList![
-                                                                        index]
-                                                                    .miktar;
-                                                        _expensesList?[index]
-                                                            .isOdendi = value;
-                                                        _writeToExpenseList();
-                                                      });
-                                                      _updateDebtPaid();
-                                                    }),
+                                              child: Center(
+                                                child: ListTile(
+                                                  leading: _selectedExpenseList?[
+                                                                  index]
+                                                              .kategori ==
+                                                          "Konut"
+                                                      ? const Icon(
+                                                          Icons.apartment,
+                                                          color: primaryOrange,
+                                                        )
+                                                      : _selectedExpenseList?[
+                                                                      index]
+                                                                  .kategori ==
+                                                              "Fatura"
+                                                          ? const Icon(
+                                                              Icons
+                                                                  .receipt_long,
+                                                              color: primaryRed,
+                                                            )
+                                                          : _selectedExpenseList?[
+                                                                          index]
+                                                                      .kategori ==
+                                                                  "Kredi Kartı"
+                                                              ? const Icon(
+                                                                  Icons
+                                                                      .credit_card,
+                                                                  color:
+                                                                      primaryBlue,
+                                                                )
+                                                              : _selectedExpenseList?[
+                                                                              index]
+                                                                          .kategori ==
+                                                                      "Birikim"
+                                                                  ? const Icon(
+                                                                      Icons
+                                                                          .savings_outlined,
+                                                                      color:
+                                                                          primaryPink,
+                                                                    )
+                                                                  : const Icon(
+                                                                      Icons
+                                                                          .currency_lira,
+                                                                      color:
+                                                                          primaryBrown,
+                                                                    ),
+                                                  title: Text(
+                                                      "${_selectedExpenseList?[index].kalemAdi}\n${oCcy.format(_selectedExpenseList?[index].miktar)} ₺"),
+                                                  subtitle: Text(languageNotifier
+                                                              .lang ==
+                                                          "en"
+                                                      ? "Due Date: ${_selectedExpenseList?[index].sonOdemeTarihi}"
+                                                      : "Son ödeme tarihi: ${_selectedExpenseList?[index].sonOdemeTarihi}"),
+                                                  trailing: Checkbox(
+                                                      fillColor:
+                                                          MaterialStateProperty
+                                                              .all(
+                                                                  primaryOrange),
+                                                      value:
+                                                          _selectedExpenseList?[
+                                                                  index]
+                                                              .isOdendi,
+                                                      onChanged: (bool? value) {
+                                                        setState(() {
+                                                          _selectedExpenseList?[
+                                                                  index]
+                                                              .isOdendi = value;
+                                                          _selectedExpenseList?[
+                                                                          index]
+                                                                      .isOdendi ==
+                                                                  false
+                                                              ? _paidAmount -=
+                                                                  _selectedExpenseList![
+                                                                          index]
+                                                                      .miktar
+                                                              : _paidAmount +=
+                                                                  _selectedExpenseList![
+                                                                          index]
+                                                                      .miktar;
+                                                          _expensesList?[index]
+                                                              .isOdendi = value;
+                                                          _writeToExpenseList();
+                                                        });
+                                                        _updateDebtPaid();
+                                                      }),
+                                                ),
                                               ),
                                             ),
                                           )),
@@ -594,7 +606,10 @@ class _IncomeExpensePageState extends State<IncomeExpensePage> {
                                         languageNotifier.lang == "en"
                                             ? "No Expense Entry"
                                             : "Gider kaydı bulunmuyor",
-                                        style: const TextStyle(fontSize: 20),
+                                        style: TextStyle(
+                                            fontSize: const AdaptiveTextSize()
+                                                .getadaptiveTextSize(
+                                                    context, 20)),
                                       ),
                                     ),
                                   ],

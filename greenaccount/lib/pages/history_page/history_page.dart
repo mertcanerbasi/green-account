@@ -8,6 +8,7 @@ import '../../models/income_expense_model.dart';
 import '../../models/language_model.dart';
 import '../../models/theme_model.dart';
 import '../../utils/adaptivescreensize.dart';
+import '../../utils/adaptivetextsize.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
@@ -110,7 +111,9 @@ class _HistoryPageState extends State<HistoryPage> {
                         languageNotifier.lang == "en"
                             ? "No History Record Found"
                             : "Geçmiş Kayıt Bulunmuyor",
-                        style: const TextStyle(fontSize: 20),
+                        style: TextStyle(
+                            fontSize: const AdaptiveTextSize()
+                                .getadaptiveTextSize(context, 20)),
                       ),
                     ),
                   ],
